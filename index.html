@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolla | Your Personal Finance Bot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="leaves-container"></div>
+
+    <div id="chat-container">
+        <div id="chat-header">
+            <span class="header-title">Dolla: The finance bot</span>
+        </div>
+        <div id="chat-window">
+            <div id="chat-messages"></div>
+            <div class="typing-indicator-container" style="display: none;">
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <div id="chat-input-container">
+            <div id="main-chat-input-wrapper">
+                <input type="text" id="chat-input" placeholder="Chat with Dolla...">
+                <button id="send-button">Send</button>
+            </div>
+            <div id="financial-inputs">
+                <input type="number" id="allowance-input" placeholder="Allowance">
+                <input type="number" id="expenses-input" placeholder="Expenses">
+            </div>
+            
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
