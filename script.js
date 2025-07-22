@@ -67,7 +67,133 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (conversationState === 'ask_work' && buttonText === 'No') {
             addMessage("I can only create budget plans for students or workers at the moment.", 'bot');
             conversationState = 'start';
+        } else if (conversationState === 'ask_employment_status') {
+            budgetData.employmentStatus = buttonText;
+            conversationState = 'ask_income_level';
+            addMessage('Got it. Now, what is your current income level?', 'bot', ['Low Income', 'Medium Income', 'High Income']);
+        } else if (conversationState === 'ask_income_level') {
+            budgetData.incomeLevel = buttonText;
+            provideBudgetingAdvice(budgetData.employmentStatus, budgetData.incomeLevel);
         }
+    };
+
+    const provideBudgetingAdvice = (employmentStatus, incomeLevel) => {
+        let advice = '';
+        let title = `Budgeting Tips for a ${employmentStatus} with ${incomeLevel} Income`;
+
+        let tips = [];
+
+        if (employmentStatus === 'Student') {
+            if (incomeLevel === 'Low Income') {
+                tips = [
+                    "<b>Track your spending:</b> Know where your money goes.",
+                    "<b>Student discounts are your best friend:</b> Always ask if there's a student discount.",
+                    "<b>Cook your own meals:</b> It's cheaper and healthier than eating out.",
+                    "<b>Look for part-time work or paid internships:</b> A little extra income can make a big difference.",
+                    "<b>Use public transport or walk:</b> Avoid the costs of a personal car."
+                ];
+            } else if (incomeLevel === 'Medium Income') {
+                tips = [
+                    "<b>Create a budget and stick to it:</b> The 50/30/20 rule is a good start.",
+                    "<b>Save a portion of your allowance/income:</b> Start building a savings habit early.",
+                    "<b>Avoid unnecessary subscriptions:</b> Do you really need all those streaming services?",
+                    "<b>Plan for your future:</b> It's never too early to start thinking about long-term goals.",
+                    "<b>Invest in your education:</b> Use your resources to learn new skills."
+                ];
+            } else { // High Income
+                tips = [
+                    "<b>Start investing early:</b> Take advantage of compound interest.",
+                    "<b>Build an emergency fund:</b> Be prepared for unexpected expenses.",
+                    "<b>Avoid lifestyle inflation:</b> Don't increase your spending just because your income has increased.",
+                    "<b>Seek financial advice:</b> Learn how to manage your money effectively.",
+                    "<b>Give back:</b> Consider donating to a cause you care about."
+                ];
+            }
+        } else if (employmentStatus === 'Worker') {
+             if (incomeLevel === 'Low Income') {
+                tips = [
+                    "<b>Create a detailed budget:</b> Track every dollar.",
+                    "<b>Cut unnecessary expenses:</b> Look for areas where you can save.",
+                    "<b>Increase your income:</b> Consider a side hustle or asking for a raise.",
+                    "<b>Build an emergency fund:</b> Even a small one can help.",
+                    "<b>Avoid debt:</b> It can be a major obstacle to financial freedom."
+                ];
+            } else if (incomeLevel === 'Medium Income') {
+                tips = [
+                    "<b>Automate your savings and investments:</b> Make it a priority.",
+                    "<b>Pay off high-interest debt:</b> This will free up more of your income.",
+                    "<b>Plan for retirement:</b> Take advantage of employer-sponsored retirement plans.",
+                    "<b>Review your insurance coverage:</b> Make sure you're adequately protected.",
+                    "<b>Set financial goals:</b> This will help you stay motivated."
+                ];
+            } else { // High Income
+                tips = [
+                    "<b>Max out your retirement contributions:</b> This is a great way to save for the future.",
+                    "<b>Diversify your investments:</b> Don't put all your eggs in one basket.",
+                    "<b>Work with a financial advisor:</b> Get expert help to manage your wealth.",
+                    "<b>Optimize your taxes:</b> Look for ways to reduce your tax burden.",
+                    "<b>Plan your estate:</b> Protect your assets and provide for your loved ones."
+                ];
+            }
+        } else { // Unemployed
+            title = `Budgeting Tips for an Unemployed Individual`;
+            if (incomeLevel === 'Low Income') {
+                tips = [
+                    "<b>Create a bare-bones budget:</b> Focus on essential expenses only.",
+                    "<b>Apply for unemployment benefits:</b> This can provide a temporary safety net.",
+                    "<b>Cut all non-essential spending:</b> Be ruthless.",
+                    "<b>Seek out community resources:</b> There may be programs that can help with food, housing, and other needs.",
+                    "<b>Focus on finding a new job:</b> This is your top priority."
+                ];
+            } else if (incomeLevel === 'Medium Income') {
+                tips = [
+                    "<b>Review your emergency fund:</b> This is what it's for.",
+                    "<b>Create a new budget based on your current situation:</b> Your income has changed, so your budget needs to change too.",
+                    "<b>Negotiate with your creditors:</b> They may be willing to work with you.",
+                    "<b>Network and upskill:</b> Use this time to improve your job prospects.",
+                    "<b>Stay positive:</b> A positive attitude can make a big difference."
+                ];
+            } else { // High Income
+                tips = [
+                    "<b>Don't panic:</b> You have resources to draw on.",
+                    "<b>Assess your financial situation:</b> Know where you stand.",
+                    "<b>Create a plan for the next few months:</b> This will help you feel more in control.",
+                    "<b>Consider consulting with a financial advisor:</b> They can help you navigate this transition.",
+                    "<b>Take care of yourself:</b> Job loss can be stressful, so make sure to prioritize your well-being."
+                ];
+            }
+        }
+
+        advice = `<h3>${title}:</h3><ul>` + tips.map(tip => `<li>${tip}</li>`).join('') + `</ul>`;
+        addMessage(advice, 'bot');
+        conversationState = 'start';
+        budgetData = {}; // Clear budget data
+    };
+
+    const provideSavingTips = () => {
+        const tips = [
+            "<b>Pay yourself first:</b> Set aside a portion of your income for savings before you start spending.",
+            "<b>Automate your savings:</b> Set up automatic transfers to your savings account.",
+            "<b>Create a budget:</b> This will help you track your spending and find areas where you can save.",
+            "<b>Cut back on unnecessary expenses:</b> Look for ways to reduce your spending on non-essential items.",
+            "<b>Set savings goals:</b> This will help you stay motivated and focused on your financial goals."
+        ];
+
+        const advice = `<h3>Here are some general saving tips:</h3><ul>` + tips.map(tip => `<li>${tip}</li>`).join('') + `</ul>`;
+        addMessage(advice, 'bot');
+    };
+
+    const provideDebtManagementTips = () => {
+        const tips = [
+            "<b>Assess your debt:</b> Know how much you owe and to whom.",
+            "<b>Create a budget:</b> This will help you find money to put towards your debt.",
+            "<b>Choose a repayment strategy:</b> The two most common are the debt snowball and debt avalanche methods.",
+            "<b>Consider debt consolidation:</b> This could simplify your payments and lower your interest rate.",
+            "<b>Seek professional help:</b> A credit counselor can help you create a plan to get out of debt."
+        ];
+
+        const advice = `<h3>Here are some debt management strategies:</h3><ul>` + tips.map(tip => `<li>${tip}</li>`).join('') + `</ul>`;
+        addMessage(advice, 'bot');
     };
 
     const createStudentBudgetPlan = () => {
@@ -189,6 +315,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const lowerCaseMessage = message.toLowerCase();
+        if (lowerCaseMessage.includes('budgeting tips')) {
+            addMessage(message, 'user');
+            chatInput.value = '';
+            conversationState = 'ask_employment_status';
+            addMessage('Of course! To give you the best advice, could you tell me your current employment status?', 'bot', ['Student', 'Worker', 'Unemployed']);
+            return;
+        }
+
+        if (lowerCaseMessage.includes('saving tips')) {
+            addMessage(message, 'user');
+            chatInput.value = '';
+            provideSavingTips();
+            return;
+        }
+
+        if (lowerCaseMessage.includes('debt management') || lowerCaseMessage.includes('pay off debt') || lowerCaseMessage.includes('manage debt') || lowerCaseMessage.includes('help with debt')) {
+            addMessage(message, 'user');
+            chatInput.value = '';
+            provideDebtManagementTips();
+            return;
+        }
+
         if (lowerCaseMessage.includes('thank you') || lowerCaseMessage.includes('thanks')) {
             addMessage(message, 'user');
             chatInput.value = '';
