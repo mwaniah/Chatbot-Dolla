@@ -58,6 +58,18 @@ body {
     border-bottom: 3px solid #ff7f7f;
     background-color: #000000;
     color: white;
+    text-align: center;
+    position: relative; /* Add this */
+}
+
+#logo {
+    position: absolute; /* Add this */
+    left: 10px; /* Add this */
+    top: 50%; /* Add this */
+    transform: translateY(-50%); /* Add this */
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    border-radius: 50%; /* Add this */
 }
 
 #bot-icon {
@@ -191,6 +203,15 @@ button:hover {
 
 .header-title {
     font-size: 24px;
+}
+
+#info-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 5px 10px;
+    color: white;
+    font-size: 14px;
 }
 
 #chat-input::placeholder,

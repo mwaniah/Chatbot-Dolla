@@ -330,13 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (lowerCaseMessage.includes('debt management') || lowerCaseMessage.includes('pay off debt') || lowerCaseMessage.includes('manage debt') || lowerCaseMessage.includes('help with debt')) {
-            addMessage(message, 'user');
-            chatInput.value = '';
-            provideDebtManagementTips();
-            return;
-        }
-
         if (lowerCaseMessage.includes('thank you') || lowerCaseMessage.includes('thanks')) {
             addMessage(message, 'user');
             chatInput.value = '';

@@ -196,8 +196,11 @@ def chat():
         "liability": "A liability is any debt you owe. It's money you have to pay back to someone else."
     }
 
+    if message.lower() == "debt management strategies":
+        return jsonify({"reply": "<b>Debt Management Strategies:</b><br><br>Here are some strategies to manage debt:<br><br><b>1. Create a Budget:</b> Track your income and expenses to find money to put towards your debt.<br><b>2. Debt Snowball Method:</b> Pay off your smallest debts first to build momentum.<br><b>3. Debt Avalanche Method:</b> Pay off your debts with the highest interest rates first to save money on interest.<br><b>4. Debt Consolidation:</b> Combine multiple debts into a single loan with a lower interest rate.<br><b>5. Seek Professional Help:</b> A credit counselor can help you create a plan to get out of debt."})
+
     for term, definition in financial_terms.items():
-        if (term in message.lower() and "what" in message.lower()) or message.lower() == term:
+        if message.lower() == term or message.lower() == f"what is {term}":
             return jsonify({"reply": f"<b>{term.title()}:</b> {definition}<br><br>I hope you learned 😊"})
 
     defined_term, definition = get_definition(message)
